@@ -1,4 +1,4 @@
-// Gerenciador de Economia, Conquistas, Inventário e Sistema de IAP (Google Play Billing Ready)
+// Gerenciador de Economia, Conquistas, Inventário e Loja Interna com Moedas e Diamantes do Jogo
 class EconomyManager {
     constructor() {
         this.gold = 350;
@@ -83,52 +83,76 @@ class EconomyManager {
         }
     }
 
-    // Google Play Store Billing / IAP Hook
-    purchaseProduct(productId) {
-        // Se estiver rodando em ambiente nativo Android (Capacitor/Cordova)
-        if (window.AndroidBillingInterface) {
-            window.AndroidBillingInterface.buy(productId);
-            return;
-        }
+    // Compra de itens na Loja usando Moedas e Diamantes conquistados nas fases
+    purchaseShopItem(itemId) {
+        switch(itemId) {
+            case 'buy_undo_pack':
+                // 3x Desfazer por 150 Moedas
+                if (this.spendGold(150)) {
+                    this.addPowerup('undo', 3);
+                    window.soundManager.playPowerup();
+                    alert("✨ Sucesso! +3 Desfazer adicionados ao seu inventário!");
+                } else {
+                    alert("🪙 Moedas insuficientes! Ganhe mais moedas jogando as fases.");
+                }
+                break;
 
-        // Simulação instantânea de compras no Web App
-        switch(productId) {
-            case 'coins_small':
-                this.addGold(500);
-                this.addDiamonds(5);
-                alert("✨ Compra realizada com sucesso! +500 Moedas e +5 Diamantes!");
+            case 'buy_wand_pack':
+                // 2x Varinhas Mágicas por 250 Moedas
+                if (this.spendGold(250)) {
+                    this.addPowerup('wand', 2);
+                    window.soundManager.playPowerup();
+                    alert("✨ Sucesso! +2 Varinhas Mágicas adicionadas!");
+                } else {
+                    alert("🪙 Moedas insuficientes! Ganhe mais moedas jogando as fases.");
+                }
                 break;
-            case 'coins_medium':
-                this.addGold(1500);
-                this.addDiamonds(20);
-                this.addPowerup('wand', 2);
-                alert("✨ Compra realizada! +1.500 Moedas, +20 Diamantes e +2 Varinhas!");
+
+            case 'buy_shuffle_pack':
+                // 3x Embaralhar por 180 Moedas
+                if (this.spendGold(180)) {
+                    this.addPowerup('shuffle', 3);
+                    window.soundManager.playPowerup();
+                    alert("✨ Sucesso! +3 Embaralhar adicionados!");
+                } else {
+                    alert("🪙 Moedas insuficientes! Ganhe mais moedas jogando as fases.");
+                }
                 break;
-            case 'diamonds_vault':
-                this.addDiamonds(100);
-                this.addPowerup('undo', 5);
-                this.addPowerup('wand', 5);
-                this.addPowerup('shuffle', 5);
-                alert("💎 Cofre Real Desbloqueado! +100 Diamantes e Mega Pacote de Power-ups!");
+
+            case 'buy_mega_bundle':
+                // Mega Combo por 10 Diamantes
+                if (this.spendDiamonds(10)) {
+                    this.addPowerup('undo', 3);
+                    this.addPowerup('wand', 3);
+                    this.addPowerup('shuffle', 3);
+                    this.addGold(300);
+                    window.soundManager.playWin();
+                    alert("💎 Mega Combo Adquirido! +3 Desfazer, +3 Varinhas, +3 Embaralhar e +300 Moedas!");
+                } else {
+                    alert("💎 Diamantes insuficientes! Ganhe mais diamantes completando fases da campanha.");
+                }
                 break;
-            case 'powerups_bundle':
-                this.addPowerup('undo', 3);
-                this.addPowerup('wand', 3);
-                this.addPowerup('shuffle', 3);
-                this.addPowerup('extraSlot', 2);
-                alert("⚡ Mega Combo de Power-ups Adicionado!");
+
+            case 'exchange_diamonds_for_gold':
+                // Troca 5 Diamantes por 500 Moedas
+                if (this.spendDiamonds(5)) {
+                    this.addGold(500);
+                    window.soundManager.playWin();
+                    alert("🪙 Troca realizada com sucesso! +500 Moedas adicionadas!");
+                } else {
+                    alert("💎 Diamantes insuficientes!");
+                }
                 break;
+
             default:
                 break;
         }
-        window.soundManager.playWin();
     }
 
     updateUI() {
         document.querySelectorAll('.gold-val').forEach(el => el.textContent = this.gold);
         document.querySelectorAll('.diamond-val').forEach(el => el.textContent = this.diamonds);
         
-        // Atualiza contadores de power-ups na tela
         if (document.getElementById('undo-count')) document.getElementById('undo-count').textContent = this.powerups.undo;
         if (document.getElementById('wand-count')) document.getElementById('wand-count').textContent = this.powerups.wand;
         if (document.getElementById('shuffle-count')) document.getElementById('shuffle-count').textContent = this.powerups.shuffle;

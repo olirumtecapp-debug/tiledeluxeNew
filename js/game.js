@@ -3,8 +3,8 @@ class TileExplorerEngine {
     constructor() {
         this.currentMode = "campaign";
         this.currentLevel = 1;
-        this.boardTiles = []; // Peças no tabuleiro
-        this.trayTiles = [];  // Peças na bandeja (max 7 ou 8)
+        this.boardTiles = [];
+        this.trayTiles = [];
         this.trayMaxSlots = 7;
         this.moveHistory = [];
         this.isProcessing = false;
@@ -97,11 +97,11 @@ class TileExplorerEngine {
             e.target.textContent = enabled ? 'Música: LIGADA 🎵' : 'Música: DESLIGADA 🔇';
         });
 
-        // Loja / Compras
-        document.querySelectorAll('.btn-buy-product').forEach(btn => {
+        // Compras na Loja usando Moedas e Gemas
+        document.querySelectorAll('.btn-buy-shop-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const pid = e.currentTarget.getAttribute('data-product');
-                window.economyManager.purchaseProduct(pid);
+                const itemId = e.currentTarget.getAttribute('data-item');
+                window.economyManager.purchaseShopItem(itemId);
             });
         });
     }
@@ -133,18 +133,13 @@ class TileExplorerEngine {
         this.trayMaxSlots = 7;
         this.isPaused = false;
 
-        // Configura nível
         const config = LevelDatabase.getLevelConfig(levelNum, mode);
         this.boardTiles = config.tiles;
 
-        // Atualiza cabeçalho e bioma
         this.levelTitleEl.textContent = mode === "campaign" ? `Nível ${levelNum}` : (mode === "zen" ? "Modo Zen" : "Desafio Blitz");
         this.biomeSubtitleEl.textContent = config.biome.name;
-        
-        // Atualiza fundo do bioma
         this.biomeBgEl.className = `biome-bg ${config.biome.className}`;
 
-        // Temporizador para o modo rápido
         if (this.timerInterval) clearInterval(this.timerInterval);
         if (mode === "quick" && config.timeLimit) {
             this.timeLeft = config.timeLimit;
@@ -176,19 +171,16 @@ class TileExplorerEngine {
         this.timerTextEl.textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
-    // Calcula se uma peça está sobreposta (bloqueada) por peças em camadas superiores
     calculateBlockedStatus() {
-        const tileW = 54;
-        const tileH = 64;
+        const tileW = 50;
+        const tileH = 60;
 
         this.boardTiles.forEach(tileA => {
             let blocked = false;
-            // Percorre peças que estão em camadas MAIORES
             for (let tileB of this.boardTiles) {
                 if (tileB.layer > tileA.layer) {
                     const dx = Math.abs(tileA.x - tileB.x);
                     const dy = Math.abs(tileA.y - tileB.y);
-                    // Se houver sobreposição visual significativa
                     if (dx < tileW * 0.82 && dy < tileH * 0.82) {
                         blocked = true;
                         break;
@@ -203,7 +195,6 @@ class TileExplorerEngine {
         this.boardContainer.innerHTML = '';
         this.calculateBlockedStatus();
 
-        // Ordena para desenhar camadas mais baixas primeiro
         const sortedTiles = [...this.boardTiles].sort((a, b) => a.layer - b.layer);
 
         sortedTiles.forEach(tile => {
@@ -229,14 +220,12 @@ class TileExplorerEngine {
     renderTray() {
         this.trayContainer.innerHTML = '';
         
-        // Renderiza slots vazios de fundo
         for (let i = 0; i < this.trayMaxSlots; i++) {
             const slot = document.createElement('div');
             slot.className = 'tray-slot-placeholder';
             this.trayContainer.appendChild(slot);
         }
 
-        // Renderiza as peças atualmente retidas na bandeja
         this.trayTiles.forEach((tile, index) => {
             const asset = TileAssets.tiles[tile.type];
             const el = document.createElement('div');
@@ -249,18 +238,13 @@ class TileExplorerEngine {
 
     handleTileClick(tile) {
         if (this.isProcessing || tile.isBlocked) return;
-        if (this.trayTiles.length >= this.trayMaxSlots) {
-            return; // Bandeja cheia
-        }
+        if (this.trayTiles.length >= this.trayMaxSlots) return;
 
-        // Som ao selecionar peça
         window.soundManager.playTileSelect();
 
-        // Remove do tabuleiro
         this.boardTiles = this.boardTiles.filter(t => t.id !== tile.id);
         this.moveHistory.push({ tile: tile, trayIndex: this.trayTiles.length });
 
-        // Inserção inteligente: coloca a nova peça junta com as do mesmo tipo
         let insertIndex = this.trayTiles.length;
         const sameTypeIndices = [];
         this.trayTiles.forEach((t, i) => {
@@ -274,16 +258,12 @@ class TileExplorerEngine {
             this.trayTiles.push(tile);
         }
 
-        // Re-renderiza tabuleiro e bandeja
         this.renderBoard();
         this.renderTray();
-
-        // Checar Trincas
         this.checkMatches();
     }
 
     checkMatches() {
-        // Conta quantas peças de cada tipo estão na bandeja
         const typeCounts = {};
         this.trayTiles.forEach(t => {
             typeCounts[t.type] = (typeCounts[t.type] || 0) + 1;
@@ -300,7 +280,6 @@ class TileExplorerEngine {
         if (matchedType) {
             this.isProcessing = true;
             
-            // Sistema de Combos
             const now = Date.now();
             if (now - this.lastMatchTime < 3500) {
                 this.comboCount++;
@@ -309,20 +288,16 @@ class TileExplorerEngine {
             }
             this.lastMatchTime = now;
 
-            // Toca som de Trinca com Pitch aumentado conforme o combo
             window.soundManager.playMatch(this.comboCount);
 
-            // Animação de explosão nas 3 peças
             const trayElements = this.trayContainer.querySelectorAll('.tray-tile');
             let eliminated = 0;
             trayElements.forEach(el => {
                 if (el.innerHTML.includes(TileAssets.tiles[matchedType].name) || eliminated < 3) {
-                    // Adiciona classe de animação
                     el.classList.add('matching');
                 }
             });
 
-            // Dispara banner de combo
             if (this.comboCount > 1) {
                 this.showComboBanner(`Combo x${this.comboCount}! 💥`);
                 window.economyManager.addGold(this.comboCount * 5);
@@ -331,11 +306,9 @@ class TileExplorerEngine {
                 window.economyManager.addGold(10);
             }
 
-            // Cria partículas coloridas
             this.createMatchParticles();
 
             setTimeout(() => {
-                // Remove as 3 peças da bandeja
                 let count = 0;
                 this.trayTiles = this.trayTiles.filter(t => {
                     if (t.type === matchedType && count < 3) {
@@ -348,14 +321,12 @@ class TileExplorerEngine {
                 this.renderTray();
                 this.isProcessing = false;
 
-                // Checar se o jogador venceu
                 if (this.boardTiles.length === 0 && this.trayTiles.length === 0) {
                     this.handleWin();
                 }
             }, 300);
 
         } else {
-            // Se a bandeja atingiu a capacidade máxima sem trinca -> Derrota
             if (this.trayTiles.length >= this.trayMaxSlots) {
                 setTimeout(() => this.handleGameOver(), 200);
             }
@@ -408,7 +379,6 @@ class TileExplorerEngine {
         document.getElementById('win-diamond-reward').textContent = `+${diamondsEarned}`;
         document.getElementById('win-level-label').textContent = `Nível ${this.currentLevel} Concluído!`;
 
-        // Animação de estrelas
         const stars = document.querySelectorAll('#modal-win .star-icon');
         stars.forEach((s, idx) => {
             s.classList.remove('filled');
@@ -425,10 +395,8 @@ class TileExplorerEngine {
     }
 
     reviveGame() {
-        // Usa 5 diamantes para continuar retirando 3 peças da bandeja
         if (window.economyManager.spendDiamonds(5)) {
             this.hideModal('modal-lose');
-            // Retira até 3 peças da bandeja de volta para o tabuleiro
             const returned = this.trayTiles.splice(0, 3);
             returned.forEach(t => {
                 t.layer = 3;
@@ -438,26 +406,24 @@ class TileExplorerEngine {
             this.renderTray();
             window.soundManager.playPowerup();
             
-            // Se for modo com tempo, dá +30s
             if (this.currentMode === "quick") {
                 this.timeLeft += 30;
             }
         } else {
-            alert("💎 Você precisa de 5 Diamantes para continuar! Visite a Loja.");
+            alert("💎 Você precisa de 5 Diamantes para continuar! Ganhe mais passando de fase ou troque na Loja.");
             this.showModal('modal-shop');
         }
     }
 
-    // --- POWER-UPS ---
     useUndo() {
         if (this.moveHistory.length === 0) return;
         if (!window.economyManager.usePowerup('undo')) {
             alert("Você não tem 'Desfazer'. Adquira mais na Loja!");
+            this.showModal('modal-shop');
             return;
         }
 
         const lastMove = this.moveHistory.pop();
-        // Remove da bandeja
         const tileIdx = this.trayTiles.findIndex(t => t.id === lastMove.tile.id);
         if (tileIdx !== -1) {
             this.trayTiles.splice(tileIdx, 1);
@@ -471,10 +437,10 @@ class TileExplorerEngine {
     useMagicWand() {
         if (!window.economyManager.usePowerup('wand')) {
             alert("Você não tem 'Varinha Mágica'. Adquira mais na Loja!");
+            this.showModal('modal-shop');
             return;
         }
 
-        // Encontra o tipo de peça mais frequente nas peças livres do tabuleiro e bandeja
         const available = [...this.boardTiles.filter(t => !t.isBlocked), ...this.trayTiles];
         const counts = {};
         available.forEach(t => counts[t.type] = (counts[t.type] || 0) + 1);
@@ -490,7 +456,6 @@ class TileExplorerEngine {
 
         if (!bestType) return;
 
-        // Puxa automaticamente até 3 peças desse tipo para a bandeja
         let added = 0;
         const candidates = this.boardTiles.filter(t => t.type === bestType);
         for (let t of candidates) {
@@ -505,10 +470,10 @@ class TileExplorerEngine {
     useShuffle() {
         if (!window.economyManager.usePowerup('shuffle')) {
             alert("Você não tem 'Embaralhar'. Adquira mais na Loja!");
+            this.showModal('modal-shop');
             return;
         }
 
-        // Embaralha os tipos de todas as peças restantes no tabuleiro
         const types = this.boardTiles.map(t => t.type);
         for (let i = types.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -534,7 +499,6 @@ class TileExplorerEngine {
     }
 }
 
-// Inicia o jogo ao carregar a página
 window.addEventListener('DOMContentLoaded', () => {
     window.gameEngine = new TileExplorerEngine();
     window.economyManager.updateUI();

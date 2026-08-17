@@ -6,7 +6,6 @@
     <title>Tile Explorer Deluxe - Triple Match Zen</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2c1c4d">
-    <!-- Google Fonts Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -125,9 +124,7 @@
 
             <!-- Bandeja Inferior (7 slots) e Power-ups -->
             <div id="tray-wrapper">
-                <div id="tray-container">
-                    <!-- Slots preenchidos via JS -->
-                </div>
+                <div id="tray-container"></div>
 
                 <!-- Controles de Power-up -->
                 <div class="powerups-bar">
@@ -197,39 +194,52 @@
             </div>
         </div>
 
-        <!-- MODAL LOJA DE MOEDAS E ITENS (IAP PLAY STORE) -->
+        <!-- MODAL LOJA DE ITENS E POWER-UPS DO JOGO -->
         <div id="modal-shop" class="modal-overlay">
             <div class="modal-card" style="max-width: 420px;">
-                <h2 class="modal-title">Loja de Moedas & Gemas 🛍️</h2>
-                <p class="modal-subtitle">Adquira power-ups e itens especiais</p>
+                <h2 class="modal-title">Loja de Ajudas & Itens 🛍️</h2>
+                <p class="modal-subtitle">Use as moedas e gemas ganhas nas partidas</p>
                 
                 <div class="shop-grid">
+                    <!-- Item 1: Desfazer -->
                     <div class="shop-item">
-                        <div class="shop-item-icon">🪙</div>
-                        <div class="shop-item-name">Saco de Moedas</div>
-                        <div class="shop-item-desc">+500 Moedas +5 💎</div>
-                        <button class="shop-buy-btn btn-buy-product" data-product="coins_small">R$ 4,90</button>
+                        <div class="shop-item-icon">↩️</div>
+                        <div class="shop-item-name">+3 Desfazer</div>
+                        <div class="shop-item-desc">Volta a última peça</div>
+                        <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_undo_pack">150 🪙</button>
                     </div>
 
+                    <!-- Item 2: Varinhas -->
                     <div class="shop-item">
-                        <div class="shop-item-icon">💰</div>
-                        <div class="shop-item-name">Baú Dourado</div>
-                        <div class="shop-item-desc">+1500 Moedas +20 💎 +2 🪄</div>
-                        <button class="shop-buy-btn btn-buy-product" data-product="coins_medium">R$ 12,90</button>
+                        <div class="shop-item-icon">🪄</div>
+                        <div class="shop-item-name">+2 Varinhas</div>
+                        <div class="shop-item-desc">Resolve 1 trinca na hora</div>
+                        <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_wand_pack">250 🪙</button>
                     </div>
 
+                    <!-- Item 3: Embaralhar -->
                     <div class="shop-item">
-                        <div class="shop-item-icon">💎</div>
-                        <div class="shop-item-name">Cofre Real</div>
-                        <div class="shop-item-desc">+100 Gemas + Pacote Mágico</div>
-                        <button class="shop-buy-btn btn-buy-product" data-product="diamonds_vault">R$ 29,90</button>
+                        <div class="shop-item-icon">🔀</div>
+                        <div class="shop-item-name">+3 Embaralhar</div>
+                        <div class="shop-item-desc">Mistura o tabuleiro</div>
+                        <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_shuffle_pack">180 🪙</button>
                     </div>
 
+                    <!-- Item 4: Mega Combo -->
                     <div class="shop-item">
                         <div class="shop-item-icon">⚡</div>
-                        <div class="shop-item-name">Super Combos</div>
-                        <div class="shop-item-desc">3x Desfazer, 3x Varinhas, 3x Shuffle</div>
-                        <button class="shop-buy-btn btn-buy-product" data-product="powerups_bundle">R$ 9,90</button>
+                        <div class="shop-item-name">Mega Combo</div>
+                        <div class="shop-item-desc">3x Tudo + 300 🪙</div>
+                        <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_mega_bundle" style="background: linear-gradient(135deg, #00b4d8, #0077b6); color: #fff;">10 💎</button>
+                    </div>
+
+                    <!-- Item 5: Troca de Gemas por Moedas -->
+                    <div class="shop-item" style="grid-column: span 2;">
+                        <div class="shop-item-name" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <span>💎 ➔ 🪙 Saco de Moedas (+500 🪙)</span>
+                        </div>
+                        <div class="shop-item-desc">Troque 5 Gemas ganhas por 500 Moedas</div>
+                        <button class="shop-buy-btn btn-buy-shop-item" data-item="exchange_diamonds_for_gold" style="background: #2e7d32; color: #fff;">Trocar por 5 💎</button>
                     </div>
                 </div>
 
