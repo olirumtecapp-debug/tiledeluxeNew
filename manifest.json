@@ -1,0 +1,22 @@
+{
+  "name": "tile-explorer-deluxe",
+  "short_name": "TileExplorer",
+  "description": "Jogo Triple Tile Match Deluxe - Zen Explorer com múltiplos modos, combos e loja",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#2c1c4d",
+  "theme_color": "#ffb703",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tile Explorer Deluxe - Triple Match Zen</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c1c4d">
+    <!-- Google Fonts Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="app-container">
+        <!-- Fundo Paisagístico Dinâmico -->
+        <div id="biome-bg" class="biome-bg biome-versaillies">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+            <div class="bottom-flowers"></div>
+        </div>
+
+        <!-- Combo Banner Flutuante -->
+        <div id="combo-banner" class="combo-banner">Combo x2! 💥</div>
+
+        <!-- ================= TELA 1: MENU PRINCIPAL ================= -->
+        <div id="screen-main-menu" class="screen active">
+            <!-- Header do Menu com Saldo -->
+            <div class="game-header">
+                <div class="currency-bar">
+                    <div class="currency-badge gold">
+                        <span>🪙</span>
+                        <span class="gold-val">350</span>
+                        <div class="btn-plus" onclick="window.gameEngine.showModal('modal-shop')">+</div>
+                    </div>
+                    <div class="currency-badge diamond">
+                        <span>💎</span>
+                        <span class="diamond-val">15</span>
+                        <div class="btn-plus" onclick="window.gameEngine.showModal('modal-shop')">+</div>
+                    </div>
+                </div>
+                <div class="header-btn" onclick="window.gameEngine.showModal('modal-settings')">⚙️</div>
+            </div>
+
+            <!-- Conteúdo Central do Menu -->
+            <div class="main-menu-content">
+                <div class="game-logo">
+                    <h1>TILE <span>EXPLORER</span></h1>
+                    <p>TRIPLE MATCH DELUXE</p>
+                </div>
+
+                <!-- Seleção dos 3 Modos de Jogo -->
+                <div class="modes-selection">
+                    <div class="mode-card" id="mode-campaign-btn">
+                        <div class="mode-icon">🗺️</div>
+                        <div class="mode-info">
+                            <h3>Modo Campanha</h3>
+                            <p>Explore biomas de Versalhes a Paris</p>
+                        </div>
+                    </div>
+
+                    <div class="mode-card" id="mode-zen-btn">
+                        <div class="mode-icon">☕</div>
+                        <div class="mode-info">
+                            <h3>Modo Casual / Zen</h3>
+                            <p>Jogue relaxado sem tempo nem pressão</p>
+                        </div>
+                    </div>
+
+                    <div class="mode-card" id="mode-quick-btn">
+                        <div class="mode-icon">⚡</div>
+                        <div class="mode-info">
+                            <h3>Modo Rápido Blitz</h3>
+                            <p>Desafio frenético contra o relógio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra Inferior de Acesso Rápido -->
+                <div class="bottom-menu-bar">
+                    <button class="menu-tab-btn" id="tab-shop-btn">
+                        <span class="tab-icon">🛍️</span>
+                        <span>Loja</span>
+                    </button>
+                    <button class="menu-tab-btn active" onclick="window.gameEngine.showScreen('screen-main-menu')">
+                        <span class="tab-icon">🏠</span>
+                        <span>Início</span>
+                    </button>
+                    <button class="menu-tab-btn" id="tab-settings-btn">
+                        <span class="tab-icon">⚙️</span>
+                        <span>Ajustes</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TELA 2: GAMEPLAY (TABULEIRO E BANDEJA) ================= -->
+        <div id="screen-gameplay" class="screen">
+            <!-- Header do Jogo -->
+            <div class="game-header">
+                <div class="header-btn" id="btn-pause">⏸️</div>
+                <div class="level-title-container">
+                    <div class="level-title" id="level-title">Nível 1</div>
+                    <div class="biome-subtitle" id="biome-subtitle">Palácio de Versalhes</div>
+                </div>
+                <div class="currency-bar">
+                    <div id="timer-badge" class="timer-badge" style="display: none;">
+                        <span>⏱️</span>
+                        <span id="timer-text">1:00</span>
+                    </div>
+                    <div class="currency-badge gold">
+                        <span>🪙</span>
+                        <span class="gold-val">350</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabuleiro Central em Camadas 3D -->
+            <div id="board-wrapper">
+                <div id="board-container"></div>
+            </div>
+
+            <!-- Bandeja Inferior (7 slots) e Power-ups -->
+            <div id="tray-wrapper">
+                <div id="tray-container">
+                    <!-- Slots preenchidos via JS -->
+                </div>
+
+                <!-- Controles de Power-up -->
+                <div class="powerups-bar">
+                    <div class="powerup-btn" id="btn-undo" title="Desfazer Última Peça">
+                        <span class="powerup-icon">↩️</span>
+                        <span class="powerup-count" id="undo-count">3</span>
+                        <span class="powerup-label">Desfazer</span>
+                    </div>
+                    <div class="powerup-btn" id="btn-wand" title="Varinha Mágica - Trinca Instantânea">
+                        <span class="powerup-icon">🪄</span>
+                        <span class="powerup-count" id="wand-count">2</span>
+                        <span class="powerup-label">Varinha</span>
+                    </div>
+                    <div class="powerup-btn" id="btn-shuffle" title="Embaralhar Peças">
+                        <span class="powerup-icon">🔀</span>
+                        <span class="powerup-count" id="shuffle-count">2</span>
+                        <span class="powerup-label">Embaralhar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MODAIS ================= -->
+
+        <!-- MODAL DE PAUSA -->
+        <div id="modal-pause" class="modal-overlay">
+            <div class="modal-card">
+                <h2 class="modal-title">Jogo Pausado ⏸️</h2>
+                <p class="modal-subtitle">Respire fundo e continue quando estiver pronto!</p>
+                <button class="btn-primary" id="btn-resume">Continuar Partida ▶️</button>
+                <button class="btn-secondary" id="btn-restart" style="margin-bottom: 10px;">Reiniciar Nível 🔄</button>
+                <button class="btn-secondary" id="btn-quit-to-menu">Menu Principal 🏠</button>
+            </div>
+        </div>
+
+        <!-- MODAL DE VITÓRIA -->
+        <div id="modal-win" class="modal-overlay">
+            <div class="modal-card">
+                <h2 class="modal-title" style="color: #2e7d32;">Fase Completa! 🎉</h2>
+                <p class="modal-subtitle" id="win-level-label">Nível Concluído com Sucesso</p>
+                <div class="stars-row">
+                    <span class="star-icon">⭐</span>
+                    <span class="star-icon">⭐</span>
+                    <span class="star-icon">⭐</span>
+                </div>
+                <div class="reward-box">
+                    <div class="reward-item" style="color: #d97706;">
+                        <span>🪙</span> <span id="win-gold-reward">+60</span>
+                    </div>
+                    <div class="reward-item" style="color: #0284c7;">
+                        <span>💎</span> <span id="win-diamond-reward">+1</span>
+                    </div>
+                </div>
+                <button class="btn-primary" id="btn-next-level">Próxima Fase ➔</button>
+            </div>
+        </div>
+
+        <!-- MODAL DE DERROTA (GAME OVER COM REVIVER) -->
+        <div id="modal-lose" class="modal-overlay">
+            <div class="modal-card">
+                <h2 class="modal-title" style="color: #c53030;">Bandeja Cheia! 🥺</h2>
+                <p class="modal-subtitle">Você não conseguiu formar a trinca a tempo.</p>
+                <button class="btn-primary" id="btn-revive" style="background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);">
+                    Continuar Partida (5 💎)
+                </button>
+                <button class="btn-secondary" id="btn-retry-lose">Tentar Novamente 🔄</button>
+            </div>
+        </div>
+
+        <!-- MODAL LOJA DE MOEDAS E ITENS (IAP PLAY STORE) -->
+        <div id="modal-shop" class="modal-overlay">
+            <div class="modal-card" style="max-width: 420px;">
+                <h2 class="modal-title">Loja de Moedas & Gemas 🛍️</h2>
+                <p class="modal-subtitle">Adquira power-ups e itens especiais</p>
+                
+                <div class="shop-grid">
+                    <div class="shop-item">
+                        <div class="shop-item-icon">🪙</div>
+                        <div class="shop-item-name">Saco de Moedas</div>
+                        <div class="shop-item-desc">+500 Moedas +5 💎</div>
+                        <button class="shop-buy-btn btn-buy-product" data-product="coins_small">R$ 4,90</button>
+                    </div>
+
+                    <div class="shop-item">
+                        <div class="shop-item-icon">💰</div>
+                        <div class="shop-item-name">Baú Dourado</div>
+                        <div class="shop-item-desc">+1500 Moedas +20 💎 +2 🪄</div>
+                        <button class="shop-buy-btn btn-buy-product" data-product="coins_medium">R$ 12,90</button>
+                    </div>
+
+                    <div class="shop-item">
+                        <div class="shop-item-icon">💎</div>
+                        <div class="shop-item-name">Cofre Real</div>
+                        <div class="shop-item-desc">+100 Gemas + Pacote Mágico</div>
+                        <button class="shop-buy-btn btn-buy-product" data-product="diamonds_vault">R$ 29,90</button>
+                    </div>
+
+                    <div class="shop-item">
+                        <div class="shop-item-icon">⚡</div>
+                        <div class="shop-item-name">Super Combos</div>
+                        <div class="shop-item-desc">3x Desfazer, 3x Varinhas, 3x Shuffle</div>
+                        <button class="shop-buy-btn btn-buy-product" data-product="powerups_bundle">R$ 9,90</button>
+                    </div>
+                </div>
+
+                <button class="btn-secondary" id="close-shop-btn">Fechar Loja</button>
+            </div>
+        </div>
+
+        <!-- MODAL DE AJUSTES -->
+        <div id="modal-settings" class="modal-overlay">
+            <div class="modal-card">
+                <h2 class="modal-title">Ajustes do Jogo ⚙️</h2>
+                <p class="modal-subtitle">Personalize sua experiência</p>
+                <button class="btn-secondary" id="toggle-sound-btn" style="margin-bottom: 12px;">Som: LIGADO 🔊</button>
+                <button class="btn-secondary" id="toggle-music-btn" style="margin-bottom: 20px;">Música: LIGADA 🎵</button>
+                <button class="btn-primary" id="close-settings-btn">Salvar e Fechar</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts do Jogo -->
+    <script src="js/sound.js"></script>
+    <script src="js/assets.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/economy.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
