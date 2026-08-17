@@ -6,7 +6,7 @@
     <title>Tile Explorer Deluxe - Triple Match Zen</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2c1c4d">
-    <!-- Meta tags para iOS e Android PWA -->
+    <!-- Meta tags PWA -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -33,7 +33,7 @@
 
         <!-- ================= TELA 1: MENU PRINCIPAL ================= -->
         <div id="screen-main-menu" class="screen active">
-            <!-- Header do Menu com Saldo e Botões Utilitários -->
+            <!-- Header do Menu Limpo -->
             <div class="game-header">
                 <div class="currency-bar">
                     <div class="currency-badge gold">
@@ -48,23 +48,19 @@
                     </div>
                 </div>
 
-                <!-- Botões do Cabeçalho: Apoiar, Tela Cheia, Instalar e Ajustes -->
+                <!-- Botões do Cabeçalho: Apoiar, Tela Cheia e Ajustes -->
                 <div class="header-actions">
                     <div class="header-btn heart-btn" onclick="window.gameEngine.showModal('modal-support')" title="Apoiar o Desenvolvedor">❤️</div>
                     <div class="header-btn" id="btn-fullscreen-menu" title="Tela Cheia">⛶</div>
-                    <div class="header-btn" onclick="window.gameEngine.showModal('modal-install')" title="Como Jogar / Instalar App">📲</div>
                     <div class="header-btn" onclick="window.gameEngine.showModal('modal-settings')" title="Ajustes">⚙️</div>
                 </div>
             </div>
 
-            <!-- Conteúdo Central do Menu -->
+            <!-- Conteúdo Central do Menu Limpo e Elegante -->
             <div class="main-menu-content">
                 <div class="game-logo">
                     <h1>TILE <span>EXPLORER</span></h1>
                     <p>TRIPLE MATCH DELUXE</p>
-                    <div class="multiplatform-badge">
-                        <span>📱 Celular</span> • <span>💻 Computador & Notebook</span>
-                    </div>
                 </div>
 
                 <!-- Seleção dos 3 Modos de Jogo -->
@@ -100,9 +96,9 @@
                         <span class="tab-icon">🛍️</span>
                         <span>Loja</span>
                     </button>
-                    <button class="menu-tab-btn" onclick="window.gameEngine.showModal('modal-install')">
-                        <span class="tab-icon">📲</span>
-                        <span>Instalar</span>
+                    <button class="menu-tab-btn active" onclick="window.gameEngine.showScreen('screen-main-menu')">
+                        <span class="tab-icon">🏠</span>
+                        <span>Início</span>
                     </button>
                     <button class="menu-tab-btn" onclick="window.gameEngine.showModal('modal-support')">
                         <span class="tab-icon" style="color: #ff4757;">❤️</span>
@@ -298,49 +294,6 @@
                 </div>
 
                 <button class="btn-secondary" onclick="window.gameEngine.hideModal('modal-support')" style="margin-top: 14px;">Fechar</button>
-            </div>
-        </div>
-
-        <!-- ================= MODAL COMO JOGAR & INSTALAR NO CELULAR / PC ================= -->
-        <div id="modal-install" class="modal-overlay">
-            <div class="modal-card" style="max-width: 420px; text-align: left;">
-                <h2 class="modal-title" style="text-align: center;">📲 Instalar & Jogar</h2>
-                <p class="modal-subtitle" style="text-align: center;">Jogue em Tela Cheia no Smartphone, Tablet, PC ou Notebook!</p>
-
-                <!-- Botão de Instalação Direta PWA -->
-                <div id="pwa-install-banner" style="margin-bottom: 14px;">
-                    <button class="btn-primary" id="btn-install-pwa" style="background: linear-gradient(135deg, #ffb703, #fb8500); color: #3e2723;">
-                        📥 Instalar App Agora (1 Clique)
-                    </button>
-                </div>
-
-                <!-- Abas de Orientação -->
-                <div class="install-instructions">
-                    <!-- Celular / Smartphone -->
-                    <div class="instruction-item">
-                        <div class="instruction-header">
-                            <span>📱 No Smartphone (Android / iPhone):</span>
-                        </div>
-                        <ul class="instruction-list">
-                            <li><strong>Chrome / Android:</strong> Toque nos 3 pontinhos (⋮) no topo do navegador e selecione <em>"Instalar aplicativo"</em> ou <em>"Adicionar à tela inicial"</em>.</li>
-                            <li><strong>Safari / iPhone:</strong> Toque no botão de <strong>Compartilhar</strong> (ícone do quadrado com seta para cima) e escolha <em>"Adicionar à Tela de Início"</em>.</li>
-                        </ul>
-                    </div>
-
-                    <!-- Computador / Notebook -->
-                    <div class="instruction-item">
-                        <div class="instruction-header">
-                            <span>💻 No PC ou Notebook (Windows / Mac / Linux):</span>
-                        </div>
-                        <ul class="instruction-list">
-                            <li><strong>Endereço Web:</strong> Jogue diretamente pelo navegador em qualquer tela.</li>
-                            <li><strong>Instalar no Computador:</strong> Clique no ícone de <strong>computador com seta (Instalar App)</strong> direto na barra de endereços do Chrome, Edge ou Brave.</li>
-                            <li><strong>Modo Tela Cheia:</strong> Use o botão <strong>⛶</strong> no topo do jogo para jogar sem barras de navegador.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <button class="btn-secondary" onclick="window.gameEngine.hideModal('modal-install')" style="margin-top: 14px; width: 100%;">Entendido, Voltar ao Jogo</button>
             </div>
         </div>
 
