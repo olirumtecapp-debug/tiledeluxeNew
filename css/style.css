@@ -195,6 +195,12 @@ body {
     transform: scale(0.85);
 }
 
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .level-title-container {
     text-align: center;
 }
@@ -215,21 +221,46 @@ body {
 }
 
 .header-btn {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.92);
     border: 2px solid #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 15px;
     cursor: pointer;
     box-shadow: 0 3px 8px rgba(0,0,0,0.25);
     color: #2c3e50;
-    transition: transform 0.15s ease;
+    transition: transform 0.15s ease, background 0.15s ease;
 }
+
+.header-btn:hover {
+    background: #ffffff;
+    transform: scale(1.08);
+}
+
 .header-btn:active { transform: scale(0.9); }
+
+.heart-btn {
+    background: #ffebee;
+    border-color: #ffcdd2;
+}
+
+.multiplatform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-top: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
 
 /* Tabuleiro e Peças */
 #board-wrapper {
@@ -251,7 +282,7 @@ body {
     max-height: 420px;
 }
 
-/* ================= PEÇAS COM ESTILO DE MARFIM 3D PREMIUM ================= */
+/* Peças com Estilo de Marfim 3D */
 .tile-item {
     position: absolute;
     width: var(--tile-width);
@@ -260,7 +291,6 @@ body {
     border-radius: var(--radius-tile);
     cursor: pointer;
     transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, filter 0.2s ease;
-    /* Relevo duplo com base de madeira/marfim biselado */
     box-shadow: 
         inset 0 2px 3px rgba(255, 255, 255, 0.9),
         inset 0 -2px 3px rgba(180, 140, 90, 0.35),
@@ -276,7 +306,6 @@ body {
     touch-action: manipulation;
 }
 
-/* Brilho de Cristal Superior */
 .tile-item::before {
     content: '';
     position: absolute;
@@ -297,7 +326,6 @@ body {
     z-index: 2;
 }
 
-/* Peça Bloqueada por Camada Superior */
 .tile-item.blocked {
     filter: brightness(0.55) contrast(0.85);
     cursor: not-allowed;
@@ -620,6 +648,135 @@ body {
     box-shadow: 0 1px 0 #94a3b8;
 }
 
+/* ================= MODAL DE APOIO / PIX ================= */
+.pix-card-container {
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.pix-dev-info {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #cbd5e1;
+}
+
+.pix-dev-name {
+    font-size: 13px;
+    color: #475569;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pix-dev-name strong {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+.pix-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pix-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.pix-input-group {
+    display: flex;
+    gap: 6px;
+}
+
+.pix-input-group input {
+    flex: 1;
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 11px;
+    color: #334155;
+    font-family: monospace;
+    outline: none;
+    text-overflow: ellipsis;
+}
+
+.btn-copy-pix {
+    background: linear-gradient(135deg, #00b4d8, #0077b6);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #023e8a;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.btn-copy-pix:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #023e8a;
+}
+
+.pix-copy-success {
+    margin-top: 10px;
+    background: #dcfce7;
+    color: #166534;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid #bbf7d0;
+    animation: modalFadeIn 0.2s ease;
+}
+
+/* ================= MODAL INSTALAÇÃO E GUIA ================= */
+.install-instructions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.instruction-item {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 12px;
+}
+
+.instruction-header {
+    font-size: 13px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+}
+
+.instruction-list {
+    font-size: 11.5px;
+    color: #475569;
+    padding-left: 16px;
+    line-height: 1.45;
+}
+
+.instruction-list li {
+    margin-bottom: 6px;
+}
+
 /* Menu Principal */
 .main-menu-content {
     flex: 1;
@@ -723,7 +880,7 @@ body {
     display: flex;
     justify-content: space-around;
     width: 100%;
-    max-width: 320px;
+    max-width: 340px;
     background: rgba(15, 10, 30, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);

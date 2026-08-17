@@ -1,4 +1,4 @@
-// Motor Principal do Jogo (Lógica de Seleção, Detecção de Camadas 3D, Bandeja de 7 slots, Combos e Modais)
+// Motor Principal do Jogo (Lógica de Seleção, Detecção de Camadas 3D, Bandeja de 7 slots, Combos, Fullscreen, PWA e Pix)
 class TileExplorerEngine {
     constructor() {
         this.currentMode = "campaign";
@@ -13,9 +13,11 @@ class TileExplorerEngine {
         this.timerInterval = null;
         this.timeLeft = 0;
         this.isPaused = false;
+        this.deferredPrompt = null;
 
         this.initDOM();
         this.bindEvents();
+        this.initPWA();
     }
 
     initDOM() {
@@ -46,6 +48,15 @@ class TileExplorerEngine {
             this.hidePauseModal();
             this.showScreen('screen-main-menu');
         });
+
+        // Botões de Tela Cheia (Fullscreen)
+        const toggleFullscreen = () => this.toggleFullscreen();
+        if (document.getElementById('btn-fullscreen-menu')) {
+            document.getElementById('btn-fullscreen-menu').addEventListener('click', toggleFullscreen);
+        }
+        if (document.getElementById('btn-fullscreen-game')) {
+            document.getElementById('btn-fullscreen-game').addEventListener('click', toggleFullscreen);
+        }
 
         // Modais de Vitória e Derrota
         document.getElementById('btn-next-level').addEventListener('click', () => {
@@ -97,13 +108,98 @@ class TileExplorerEngine {
             e.target.textContent = enabled ? 'Música: LIGADA 🎵' : 'Música: DESLIGADA 🔇';
         });
 
-        // Compras na Loja usando Moedas e Gemas
+        // Compras na Loja
         document.querySelectorAll('.btn-buy-shop-item').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const itemId = e.currentTarget.getAttribute('data-item');
                 window.economyManager.purchaseShopItem(itemId);
             });
         });
+
+        // Botão de Instalar PWA
+        const installBtn = document.getElementById('btn-install-pwa');
+        if (installBtn) {
+            installBtn.addEventListener('click', () => {
+                if (this.deferredPrompt) {
+                    this.deferredPrompt.prompt();
+                    this.deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('Usuário aceitou instalar o PWA');
+                        }
+                        this.deferredPrompt = null;
+                    });
+                } else {
+                    alert("Para instalar, utilize a opção 'Adicionar à tela inicial' ou 'Instalar Aplicativo' no menu do seu navegador!");
+                }
+            });
+        }
+    }
+
+    // Inicialização do Service Worker & Prompt PWA
+    initPWA() {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('Service Worker registrado:', reg.scope))
+                .catch(err => console.log('Falha ao registrar Service Worker:', err));
+        }
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+            const banner = document.getElementById('pwa-install-banner');
+            if (banner) banner.style.display = 'block';
+        });
+    }
+
+    // Copiar Código Pix Copia e Cola
+    copyPixCode() {
+        const pixInput = document.getElementById('pix-copy-paste-code');
+        if (pixInput) {
+            pixInput.select();
+            pixInput.setSelectionRange(0, 99999); // Para mobile
+
+            navigator.clipboard.writeText(pixInput.value).then(() => {
+                const alertEl = document.getElementById('pix-copy-alert');
+                const btnEl = document.getElementById('btn-copy-pix');
+                if (alertEl) alertEl.style.display = 'block';
+                if (btnEl) btnEl.innerHTML = '✅ Copiado!';
+                window.soundManager.playWin();
+
+                setTimeout(() => {
+                    if (btnEl) btnEl.innerHTML = '<span>📋</span> Copiar Pix';
+                }, 3000);
+            }).catch(err => {
+                // Fallback para navegadores antigos
+                document.execCommand('copy');
+                alert("Código Pix copiado!");
+            });
+        }
+    }
+
+    // Alternar Tela Cheia (Fullscreen)
+    toggleFullscreen() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            const el = document.documentElement;
+            if (el.requestFullscreen) {
+                el.requestFullscreen();
+            } else if (el.webkitRequestFullscreen) {
+                el.webkitRequestFullscreen();
+            }
+            this.updateFullscreenIcons(true);
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            }
+            this.updateFullscreenIcons(false);
+        }
+    }
+
+    updateFullscreenIcons(isFull) {
+        const icon = isFull ? '🗗' : '⛶';
+        if (document.getElementById('btn-fullscreen-menu')) document.getElementById('btn-fullscreen-menu').textContent = icon;
+        if (document.getElementById('btn-fullscreen-game')) document.getElementById('btn-fullscreen-game').textContent = icon;
     }
 
     showScreen(screenId) {
