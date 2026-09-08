@@ -914,60 +914,100 @@ body {
     color: #ffb703;
 }
 
+.modal-shop-card {
+    max-width: 400px;
+    padding: 18px 14px;
+}
+
 .shop-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 14px;
-    max-height: 280px;
-    overflow-y: auto;
-    padding: 2px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+    overflow-y: visible;
 }
 
 .shop-item {
     background: #ffffff;
-    border-radius: 16px;
-    padding: 10px;
+    border-radius: 14px;
+    padding: 8px 6px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     text-align: center;
     border: 1.5px solid #e2e8f0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.shop-item.item-powerup {
+    grid-column: span 2;
+}
+
+.shop-item.item-special {
+    grid-column: span 3;
 }
 
 .shop-item-icon {
-    font-size: 26px;
-    margin-bottom: 4px;
+    font-size: 20px;
+    margin-bottom: 2px;
 }
 
 .shop-item-name {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 800;
     color: #1e293b;
+    line-height: 1.15;
 }
 
 .shop-item-desc {
-    font-size: 10px;
+    font-size: 9.5px;
     color: #64748b;
-    margin-bottom: 6px;
+    margin-bottom: 5px;
+    line-height: 1.15;
 }
 
 .shop-buy-btn {
-    background: #ffb703;
+    background: linear-gradient(180deg, #ffb703 0%, #f57c00 100%);
     border: none;
-    border-radius: 10px;
-    padding: 5px 10px;
+    border-radius: 8px;
+    padding: 5px 6px;
     font-size: 11px;
     font-weight: 800;
-    color: #3e2723;
+    color: #2e1a00;
     cursor: pointer;
     width: 100%;
-    box-shadow: 0 2.5px 0 #f57c00;
+    box-shadow: 0 2px 0 #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.shop-buy-btn.btn-gem {
+    background: linear-gradient(180deg, #00b4d8 0%, #0077b6 100%);
+    color: #ffffff;
+    box-shadow: 0 2px 0 #023e8a;
+}
+
+.shop-buy-btn:hover {
+    filter: brightness(1.06);
 }
 
 .shop-buy-btn:active {
-    transform: translateY(2px);
-    box-shadow: 0 1px 0 #f57c00;
+    transform: translateY(1.5px);
+    box-shadow: 0 0.5px 0 rgba(0,0,0,0.2);
+}
+
+.btn-close-shop {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 12px;
 }
 
 .timer-badge {
@@ -1256,27 +1296,67 @@ body {
 
     /* Modais Ampliados no Desktop */
     .modal-card {
-        max-width: 520px;
-        padding: 28px 24px;
+        max-width: 480px;
+        padding: 24px 20px;
         border-radius: 24px;
     }
 
+    .modal-shop-card {
+        max-width: 520px;
+        padding: 22px 20px;
+    }
+
     .modal-title {
-        font-size: 22px;
+        font-size: 20px;
     }
 
     .modal-subtitle {
-        font-size: 13px;
-        margin-bottom: 16px;
+        font-size: 12px;
+        margin-bottom: 12px;
     }
 
     .shop-grid {
-        grid-template-columns: repeat(3, 1fr);
-        max-height: 380px;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
         gap: 10px;
+        margin-bottom: 14px;
+        overflow-y: visible;
+        max-height: none;
     }
 
-    .shop-item[style*="grid-column"] {
-        grid-column: span 3 !important;
+    .shop-item.item-powerup {
+        grid-column: span 2;
+        padding: 10px 8px;
+    }
+
+    .shop-item.item-special {
+        grid-column: span 3;
+        padding: 10px 8px;
+    }
+
+    .shop-item-icon {
+        font-size: 24px;
+        margin-bottom: 3px;
+    }
+
+    .shop-item-name {
+        font-size: 12px;
+    }
+
+    .shop-item-desc {
+        font-size: 10px;
+        margin-bottom: 6px;
+    }
+
+    .shop-buy-btn {
+        padding: 6px 8px;
+        font-size: 11.5px;
+        border-radius: 9px;
+    }
+
+    .btn-close-shop {
+        max-width: 180px;
+        padding: 8px 16px;
+        font-size: 13px;
     }
 }

@@ -208,49 +208,48 @@
 
         <!-- MODAL LOJA DE ITENS E POWER-UPS DO JOGO -->
         <div id="modal-shop" class="modal-overlay">
-            <div class="modal-card" style="max-width: 420px;">
+            <div class="modal-card modal-shop-card">
                 <h2 class="modal-title">Loja de Ajudas & Itens 🛍️</h2>
                 <p class="modal-subtitle">Use as moedas e gemas ganhas nas partidas</p>
                 
                 <div class="shop-grid">
-                    <div class="shop-item">
+                    <div class="shop-item item-powerup">
                         <div class="shop-item-icon">↩️</div>
                         <div class="shop-item-name">+3 Desfazer</div>
                         <div class="shop-item-desc">Volta a última peça</div>
                         <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_undo_pack">150 🪙</button>
                     </div>
 
-                    <div class="shop-item">
+                    <div class="shop-item item-powerup">
                         <div class="shop-item-icon">🪄</div>
                         <div class="shop-item-name">+2 Varinhas</div>
-                        <div class="shop-item-desc">Resolve 1 trinca na hora</div>
+                        <div class="shop-item-desc">Resolve 1 trinca</div>
                         <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_wand_pack">250 🪙</button>
                     </div>
 
-                    <div class="shop-item">
+                    <div class="shop-item item-powerup">
                         <div class="shop-item-icon">🔀</div>
                         <div class="shop-item-name">+3 Embaralhar</div>
                         <div class="shop-item-desc">Mistura o tabuleiro</div>
                         <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_shuffle_pack">180 🪙</button>
                     </div>
 
-                    <div class="shop-item">
+                    <div class="shop-item item-special">
                         <div class="shop-item-icon">⚡</div>
                         <div class="shop-item-name">Mega Combo</div>
-                        <div class="shop-item-desc">3x Tudo + 300 🪙</div>
-                        <button class="shop-buy-btn btn-buy-shop-item" data-item="buy_mega_bundle" style="background: linear-gradient(135deg, #00b4d8, #0077b6); color: #fff;">10 💎</button>
+                        <div class="shop-item-desc">+3 Tudo + 300 🪙</div>
+                        <button class="shop-buy-btn btn-buy-shop-item btn-gem" data-item="buy_mega_bundle">10 💎</button>
                     </div>
 
-                    <div class="shop-item" style="grid-column: span 2;">
-                        <div class="shop-item-name" style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                            <span>💎 ➔ 🪙 Saco de Moedas (+500 🪙)</span>
-                        </div>
-                        <div class="shop-item-desc">Troque 5 Gemas ganhas por 500 Moedas</div>
-                        <button class="shop-buy-btn btn-buy-shop-item" data-item="exchange_diamonds_for_gold" style="background: #2e7d32; color: #fff;">Trocar por 5 💎</button>
+                    <div class="shop-item item-special">
+                        <div class="shop-item-icon">💎➔🪙</div>
+                        <div class="shop-item-name">Saco de Moedas (+500 🪙)</div>
+                        <div class="shop-item-desc">Troque 5 Gemas por 500 🪙</div>
+                        <button class="shop-buy-btn btn-buy-shop-item btn-gem" data-item="exchange_diamonds_for_gold">Trocar por 5 💎</button>
                     </div>
                 </div>
 
-                <button class="btn-secondary" id="close-shop-btn">Fechar Loja</button>
+                <button class="btn-secondary btn-close-shop" id="close-shop-btn">Fechar Loja</button>
             </div>
         </div>
 
