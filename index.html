@@ -106,6 +106,44 @@
             </div>
         </div>
 
+        <!-- ================= TELA: MAPA DA SAGA (25 FASES) ================= -->
+        <div id="screen-saga-map" class="screen">
+            <!-- Header do Mapa da Saga -->
+            <div class="game-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="header-btn" onclick="window.gameEngine.showScreen('screen-main-menu')" title="Voltar ao Início">←</div>
+                </div>
+                <div class="level-title-container">
+                    <div class="level-title">Mapa da Saga 🗺️</div>
+                    <div class="biome-subtitle">25 Fases em 4 Biomas</div>
+                </div>
+                <div class="currency-bar">
+                    <div class="currency-badge gold">
+                        <span>🪙</span>
+                        <span class="gold-val">350</span>
+                    </div>
+                    <div class="currency-badge diamond">
+                        <span>💎</span>
+                        <span class="diamond-val">15</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trilha de Fases dos Biomas com Scroll Suave -->
+            <div class="saga-map-scroll" id="saga-map-scroll">
+                <div class="saga-map-content" id="saga-map-nodes">
+                    <!-- Renderizado dinamicamente pelo JavaScript -->
+                </div>
+            </div>
+
+            <!-- Barra Inferior de Ação Rápida do Mapa -->
+            <div class="saga-bottom-bar">
+                <button class="btn-primary saga-play-current-btn" id="btn-saga-play-current">
+                    <span>▶️</span> Jogar Nível <span id="saga-current-level-num">1</span>
+                </button>
+            </div>
+        </div>
+
         <!-- ================= TELA 2: GAMEPLAY (TABULEIRO E BANDEJA) ================= -->
         <div id="screen-gameplay" class="screen">
             <!-- Header do Jogo -->
@@ -191,6 +229,7 @@
                     </div>
                 </div>
                 <button class="btn-primary" id="btn-next-level">Próxima Fase ➔</button>
+                <button class="btn-secondary" id="btn-win-map" style="margin-top: 8px;">Mapa de Fases 🗺️</button>
             </div>
         </div>
 

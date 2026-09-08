@@ -1024,6 +1024,194 @@ body {
 }
 
 /* ==========================================================================
+   TELA: MAPA DA SAGA (25 FASES EM 4 BIOMAS)
+   ========================================================================== */
+#screen-saga-map {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#screen-saga-map.active {
+    display: flex;
+}
+
+.saga-map-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 10px 14px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.saga-map-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+.saga-map-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+.saga-map-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+
+.saga-map-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.saga-biome-card {
+    background: rgba(15, 10, 30, 0.68);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 2px solid rgba(255, 255, 255, 0.28);
+    border-radius: 20px;
+    padding: 12px 14px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.saga-biome-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.saga-biome-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+
+.saga-biome-tag {
+    font-size: 10px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.18);
+    padding: 2px 8px;
+    border-radius: 10px;
+    color: #ffeb3b;
+}
+
+.saga-nodes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.saga-node {
+    width: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.saga-node:hover:not(.locked) {
+    transform: translateY(-4px) scale(1.08);
+}
+
+.saga-node:active:not(.locked) {
+    transform: translateY(2px) scale(0.95);
+}
+
+.saga-node-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    position: relative;
+    border: 2px solid #ffffff;
+}
+
+/* Fases Concluídas */
+.saga-node.completed .saga-node-circle {
+    background: linear-gradient(135deg, #48bb78 0%, #2f855a 100%);
+    color: #ffffff;
+    border-color: #9ae6b4;
+}
+
+.saga-stars-row {
+    font-size: 8px;
+    letter-spacing: -1px;
+}
+
+/* Fase Atual com Brilho Pulsante */
+.saga-node.current .saga-node-circle {
+    background: linear-gradient(135deg, #ffb703 0%, #fb8500 100%);
+    color: #2e1a00;
+    border-color: #ffffff;
+    animation: currentPulse 1.6s infinite ease-in-out;
+    box-shadow: 0 0 16px rgba(255, 183, 3, 0.8), 0 4px 10px rgba(0,0,0,0.4);
+}
+
+@keyframes currentPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 12px rgba(255, 183, 3, 0.7); }
+    50% { transform: scale(1.1); box-shadow: 0 0 22px rgba(255, 183, 3, 1), 0 0 8px #fff; }
+}
+
+.saga-play-tag {
+    background: #ffb703;
+    color: #3e2723;
+    font-size: 8.5px;
+    font-weight: 900;
+    padding: 1px 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Fases Bloqueadas */
+.saga-node.locked {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(0.7);
+}
+
+.saga-node.locked .saga-node-circle {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #cbd5e1;
+}
+
+.saga-lock-icon {
+    font-size: 10px;
+}
+
+.saga-bottom-bar {
+    padding: 8px 16px 14px 16px;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.saga-play-current-btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, #ffb703 0%, #fb8500 100%);
+    color: #2e1a00;
+    box-shadow: 0 4px 0 #d97706, 0 6px 14px rgba(0,0,0,0.3);
+}
+
+/* ==========================================================================
    VERSÃO DESKTOP RESPONSIVA & WIDESCREEN (Zero Rolagem, Peças Elegantes & Botões Compactos)
    ========================================================================== */
 @media (min-width: 768px) {
@@ -1358,5 +1546,50 @@ body {
         max-width: 180px;
         padding: 8px 16px;
         font-size: 13px;
+    }
+
+    /* Mapa da Saga no Desktop (Widescreen 2 Colunas de Biomas) */
+    .saga-map-scroll {
+        padding: 8px 24px;
+        max-width: 1000px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .saga-map-content {
+        max-width: 960px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        padding: 4px 0;
+    }
+
+    .saga-biome-card {
+        padding: 12px 16px;
+        border-radius: 20px;
+    }
+
+    .saga-biome-title {
+        font-size: 14px;
+    }
+
+    .saga-nodes-grid {
+        gap: 8px;
+    }
+
+    .saga-node {
+        width: 46px;
+    }
+
+    .saga-node-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 13px;
+    }
+
+    .saga-play-current-btn {
+        max-width: 260px;
+        padding: 9px 20px;
+        font-size: 13.5px;
     }
 }

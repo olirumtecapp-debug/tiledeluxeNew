@@ -72,8 +72,25 @@ class TileExplorerEngine {
         // Seleção de Modos no Menu
         document.getElementById('mode-campaign-btn').addEventListener('click', () => {
             this.currentMode = "campaign";
-            this.startLevel(window.economyManager.highestCampaignLevel, "campaign");
+            this.showSagaMap();
         });
+
+        const sagaPlayCurrentBtn = document.getElementById('btn-saga-play-current');
+        if (sagaPlayCurrentBtn) {
+            sagaPlayCurrentBtn.addEventListener('click', () => {
+                this.currentMode = "campaign";
+                this.startLevel(window.economyManager.highestCampaignLevel || 1, "campaign");
+            });
+        }
+
+        const winMapBtn = document.getElementById('btn-win-map');
+        if (winMapBtn) {
+            winMapBtn.addEventListener('click', () => {
+                this.hideModal('modal-win');
+                this.showSagaMap();
+            });
+        }
+
         document.getElementById('mode-zen-btn').addEventListener('click', () => {
             this.currentMode = "zen";
             this.startLevel(1, "zen");
@@ -157,6 +174,82 @@ class TileExplorerEngine {
 
     hideModal(modalId) {
         document.getElementById(modalId).classList.remove('active');
+    }
+
+    showSagaMap() {
+        this.renderSagaMap();
+        this.showScreen('screen-saga-map');
+    }
+
+    renderSagaMap() {
+        const container = document.getElementById('saga-map-nodes');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const highest = window.economyManager.highestCampaignLevel || 1;
+        const currentNumEl = document.getElementById('saga-current-level-num');
+        if (currentNumEl) currentNumEl.textContent = highest;
+
+        // Biomas temáticos das 25 fases
+        const biomesInfo = [
+            { id: "versailles", name: "Jardins de Versalhes ⛲", start: 1, end: 5, bgClass: "biome-versaillies" },
+            { id: "provence", name: "Campos de Provence 🌸", start: 6, end: 10, bgClass: "biome-provence" },
+            { id: "paris", name: "Paris & Torre Eiffel 🗼", start: 11, end: 15, bgClass: "biome-paris" },
+            { id: "zen", name: "Santuário Zen ⛩️", start: 16, end: 25, bgClass: "biome-zen" }
+        ];
+
+        biomesInfo.forEach(biome => {
+            const section = document.createElement('div');
+            section.className = `saga-biome-card ${biome.bgClass}`;
+            
+            const header = document.createElement('div');
+            header.className = 'saga-biome-header';
+            header.innerHTML = `
+                <div class="saga-biome-title">${biome.name}</div>
+                <div class="saga-biome-tag">Fases ${biome.start} a ${biome.end}</div>
+            `;
+            section.appendChild(header);
+
+            const grid = document.createElement('div');
+            grid.className = 'saga-nodes-grid';
+
+            for (let i = biome.start; i <= biome.end; i++) {
+                const node = document.createElement('div');
+                const isCompleted = i < highest;
+                const isCurrent = i === highest;
+                const isLocked = i > highest;
+
+                node.className = `saga-node ${isCompleted ? 'completed' : (isCurrent ? 'current' : 'locked')}`;
+                
+                let badgeHTML = '';
+                if (isCompleted) {
+                    badgeHTML = '<div class="saga-stars-row">⭐⭐⭐</div>';
+                } else if (isCurrent) {
+                    badgeHTML = '<div class="saga-play-tag">JOGAR</div>';
+                } else {
+                    badgeHTML = '<div class="saga-lock-icon">🔒</div>';
+                }
+
+                node.innerHTML = `
+                    <div class="saga-node-circle">
+                        <span>${i}</span>
+                    </div>
+                    ${badgeHTML}
+                `;
+
+                if (!isLocked) {
+                    node.addEventListener('click', () => {
+                        window.soundManager.playClick();
+                        this.startLevel(i, "campaign");
+                    });
+                }
+
+                grid.appendChild(node);
+            }
+
+            section.appendChild(grid);
+            container.appendChild(section);
+        });
     }
 
     startLevel(levelNum, mode = "campaign") {
@@ -422,6 +515,14 @@ class TileExplorerEngine {
             s.classList.remove('filled');
             setTimeout(() => s.classList.add('filled'), (idx + 1) * 200);
         });
+
+        if (this.currentMode === "campaign") {
+            const nextLvl = this.currentLevel + 1;
+            if (nextLvl > window.economyManager.highestCampaignLevel) {
+                window.economyManager.highestCampaignLevel = nextLvl;
+                window.economyManager.save();
+            }
+        }
 
         this.showModal('modal-win');
     }
