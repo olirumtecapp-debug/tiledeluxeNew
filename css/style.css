@@ -7,9 +7,9 @@
     --diamond: #00b4d8;
     --text-dark: #22223b;
     --tray-bg: rgba(20, 15, 35, 0.75);
-    --tile-width: 50px;
-    --tile-height: 60px;
-    --radius-tile: 14px;
+    --tile-width: 46px;
+    --tile-height: 56px;
+    --radius-tile: 12px;
 }
 
 * {
@@ -984,12 +984,20 @@ body {
 }
 
 /* ==========================================================================
-   VERSÃO DESKTOP RESPONSIVA & WIDESCREEN (Experiência Deluxe de PC/Tablet)
+   VERSÃO DESKTOP RESPONSIVA & WIDESCREEN (Zero Rolagem, Peças Elegantes & Botões Compactos)
    ========================================================================== */
 @media (min-width: 768px) {
+    html, body {
+        overflow: hidden !important;
+        height: 100vh;
+        height: 100dvh;
+    }
+
     body {
         background: #0d0a1a;
-        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #app-container {
@@ -1000,234 +1008,275 @@ body {
         border-radius: 0;
         border: none;
         box-shadow: none;
+        overflow: hidden !important;
+    }
+
+    .screen {
+        overflow: hidden !important;
+        height: 100vh;
     }
 
     /* Nuvens e Bioma Panorâmicos */
-    .cloud-1 { width: 260px; height: 60px; }
-    .cloud-2 { width: 180px; height: 45px; }
-    .cloud-3 { width: 220px; height: 50px; }
+    .cloud-1 { width: 220px; height: 50px; }
+    .cloud-2 { width: 150px; height: 38px; }
+    .cloud-3 { width: 180px; height: 42px; }
 
     @keyframes floatCloud {
-        0% { transform: translateX(-300px); }
-        100% { transform: translateX(110vw); }
+        0% { transform: translateX(-260px); }
+        100% { transform: translateX(105vw); }
     }
 
     .bottom-flowers {
-        height: 60px;
+        height: 48px;
     }
 
     /* Cabeçalho do Jogo Widescreen */
     .game-header {
-        max-width: 1100px;
+        max-width: 960px;
         width: 100%;
         margin: 0 auto;
-        padding: 14px 28px;
+        padding: 10px 20px;
+        flex-shrink: 0;
     }
 
     .currency-badge {
-        padding: 5px 14px;
-        font-size: 14px;
-        gap: 6px;
+        padding: 4px 10px;
+        font-size: 13px;
+        gap: 5px;
     }
 
     .currency-badge .btn-plus {
-        width: 20px;
-        height: 20px;
-        font-size: 15px;
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
     }
 
     .header-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
     }
 
     .level-title {
-        font-size: 22px;
+        font-size: 19px;
     }
 
     .biome-subtitle {
-        font-size: 13px;
+        font-size: 12px;
     }
 
-    /* Menu Principal em Grade Widescreen */
+    /* Menu Principal em Grade Compacta & Sem Rolagem */
     .main-menu-content {
-        max-width: 1000px;
+        max-width: 860px;
         width: 100%;
         margin: 0 auto;
-        justify-content: center;
-        gap: 30px;
-        padding: 24px;
+        height: calc(100vh - 58px);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 20px;
+        overflow: hidden !important;
+    }
+
+    .game-logo {
+        margin: 0;
     }
 
     .game-logo h1 {
-        font-size: 46px;
+        font-size: 32px;
+        line-height: 1;
     }
 
     .game-logo span {
-        font-size: 54px;
+        font-size: 36px;
     }
 
     .game-logo p {
-        font-size: 15px;
-        letter-spacing: 5px;
+        font-size: 12px;
+        letter-spacing: 3px;
     }
 
     .modes-selection {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-        max-width: 960px;
+        gap: 16px;
+        max-width: 820px;
         width: 100%;
-        margin: 10px auto;
+        margin: 0 auto;
     }
 
     .mode-card {
         flex-direction: column;
         text-align: center;
-        padding: 26px 20px;
-        gap: 14px;
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.94);
-        border: 3px solid rgba(255, 255, 255, 0.95);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+        padding: 18px 14px;
+        gap: 8px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 2.5px solid rgba(255, 255, 255, 0.95);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, border-color 0.2s ease;
     }
 
     .mode-card:hover {
-        transform: translateY(-8px) scale(1.03);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(255, 183, 3, 0.45);
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.3), 0 0 18px rgba(255, 183, 3, 0.4);
         border-color: #ffb703;
     }
 
     .mode-icon {
-        font-size: 40px;
-        width: 68px;
-        height: 68px;
-        border-radius: 20px;
+        font-size: 30px;
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
         margin: 0 auto;
     }
 
     .mode-info h3 {
-        font-size: 19px;
+        font-size: 15px;
     }
 
     .mode-info p {
-        font-size: 12px;
-        margin-top: 5px;
+        font-size: 11px;
+        margin-top: 2px;
     }
 
     .bottom-menu-bar {
-        max-width: 440px;
-        padding: 10px 24px;
-        margin-top: 10px;
-        border-radius: 28px;
+        max-width: 360px;
+        padding: 6px 16px;
+        margin: 0 auto;
+        border-radius: 20px;
+        flex-shrink: 0;
     }
 
     .menu-tab-btn {
-        font-size: 12px;
-        gap: 4px;
+        font-size: 11px;
+        gap: 2px;
     }
 
     .menu-tab-btn .tab-icon {
-        font-size: 24px;
+        font-size: 20px;
     }
 
-    /* Tabuleiro e Bandeja no Desktop */
+    /* Tabuleiro e Bandeja Perfeitamente Encaixados e Sem Sobreposição */
+    #screen-gameplay {
+        height: 100vh;
+        display: none;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden !important;
+    }
+
+    #screen-gameplay.active {
+        display: flex;
+    }
+
     #board-wrapper {
-        padding: 10px;
+        flex: 1;
+        min-height: 0;
+        padding: 4px 10px;
         display: flex;
         justify-content: center;
         align-items: center;
+        overflow: hidden !important;
     }
 
     #board-container {
-        transform: scale(1.15);
-        transform-origin: center center;
+        width: 360px;
+        height: 360px;
+        max-width: 100%;
+        max-height: 100%;
+        position: relative;
+        transform: none !important;
     }
 
     #tray-wrapper {
-        padding: 12px 20px 24px 20px;
-        gap: 14px;
+        padding: 6px 12px 12px 12px;
+        gap: 8px;
+        flex-shrink: 0;
     }
 
     #tray-container {
-        max-width: 480px;
-        height: 86px;
-        border-radius: 24px;
-        padding: 6px 10px;
-        gap: 6px;
+        max-width: 400px;
+        height: 72px;
+        border-radius: 18px;
+        padding: 4px 6px;
+        gap: 4px;
     }
 
     .tray-slot-placeholder {
-        max-width: 58px;
-        border-radius: 14px;
+        max-width: 48px;
+        border-radius: 10px;
     }
 
     .tray-tile {
-        width: 54px !important;
-        height: 66px !important;
+        width: 46px !important;
+        height: 56px !important;
     }
 
     .powerups-bar {
-        gap: 32px;
+        gap: 20px;
     }
 
     .powerup-btn {
-        width: 56px;
-        height: 56px;
-        border-radius: 18px;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
         transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
     }
 
     .powerup-btn:hover {
-        transform: translateY(-5px) scale(1.08);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+        transform: translateY(-3px) scale(1.06);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.3);
     }
 
     .powerup-btn:active {
-        transform: translateY(2px) scale(0.95);
+        transform: translateY(2px) scale(0.96);
+    }
+
+    .powerup-icon {
+        font-size: 20px;
+    }
+
+    .powerup-count {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
     }
 
     .powerup-label {
         display: block;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 700;
         color: #fff;
-        text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-        margin-top: 4px;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        margin-top: 2px;
     }
 
     /* Modais Ampliados no Desktop */
     .modal-card {
-        max-width: 580px;
-        padding: 36px 32px;
-        border-radius: 28px;
+        max-width: 520px;
+        padding: 28px 24px;
+        border-radius: 24px;
     }
 
     .modal-title {
-        font-size: 26px;
+        font-size: 22px;
     }
 
     .modal-subtitle {
-        font-size: 14px;
-        margin-bottom: 20px;
+        font-size: 13px;
+        margin-bottom: 16px;
     }
 
     .shop-grid {
         grid-template-columns: repeat(3, 1fr);
-        max-height: 440px;
-        gap: 14px;
+        max-height: 380px;
+        gap: 10px;
     }
 
     .shop-item[style*="grid-column"] {
         grid-column: span 3 !important;
-    }
-}
-
-@media (min-width: 1200px) and (min-height: 800px) {
-    #board-container {
-        transform: scale(1.25);
-        transform-origin: center center;
     }
 }
