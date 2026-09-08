@@ -48,10 +48,8 @@
                     </div>
                 </div>
 
-                <!-- Botões do Cabeçalho: Apoiar, Tela Cheia e Ajustes -->
+                <!-- Botão do Cabeçalho: Ajustes -->
                 <div class="header-actions">
-                    <div class="header-btn heart-btn" onclick="window.gameEngine.showModal('modal-support')" title="Apoiar o Desenvolvedor">❤️</div>
-                    <div class="header-btn" id="btn-fullscreen-menu" title="Tela Cheia">⛶</div>
                     <div class="header-btn" onclick="window.gameEngine.showModal('modal-settings')" title="Ajustes">⚙️</div>
                 </div>
             </div>
@@ -100,10 +98,6 @@
                         <span class="tab-icon">🏠</span>
                         <span>Início</span>
                     </button>
-                    <button class="menu-tab-btn" onclick="window.gameEngine.showModal('modal-support')">
-                        <span class="tab-icon" style="color: #ff4757;">❤️</span>
-                        <span>Apoiar</span>
-                    </button>
                     <button class="menu-tab-btn" id="tab-settings-btn">
                         <span class="tab-icon">⚙️</span>
                         <span>Ajustes</span>
@@ -118,7 +112,6 @@
             <div class="game-header">
                 <div style="display: flex; gap: 6px;">
                     <div class="header-btn" id="btn-pause" title="Pausar">⏸️</div>
-                    <div class="header-btn" id="btn-fullscreen-game" title="Tela Cheia">⛶</div>
                 </div>
                 <div class="level-title-container">
                     <div class="level-title" id="level-title">Nível 1</div>
@@ -261,42 +254,6 @@
             </div>
         </div>
 
-        <!-- ================= MODAL DE APOIO / DOAÇÃO (PIX COPIA E COLA) ================= -->
-        <div id="modal-support" class="modal-overlay">
-            <div class="modal-card" style="max-width: 400px;">
-                <div style="font-size: 38px; margin-bottom: 6px;">❤️</div>
-                <h2 class="modal-title">Apoie o Desenvolvedor</h2>
-                <p class="modal-subtitle">Gostou do jogo? Ajude a manter o projeto ativo e novos jogos sendo criados!</p>
-
-                <!-- Box do Desenvolvedor -->
-                <div class="pix-card-container">
-                    <div class="pix-dev-info">
-                        <div class="pix-dev-name">
-                            <span>👨‍💻 Desenvolvedor:</span>
-                            <strong>MURILO SILVA</strong>
-                        </div>
-                    </div>
-
-                    <!-- Código PIX Copia e Cola -->
-                    <div class="pix-box">
-                        <label class="pix-label">Chave / Código Pix Copia e Cola:</label>
-                        <div class="pix-input-group">
-                            <input type="text" id="pix-copy-paste-code" readonly value="00020101021126420014br.gov.bcb.pix0120olirumdev1@gmail.com5204000053039865802BR5918MURILO SILVA - PIJ6008BRASILIA62070503***630432FF">
-                            <button class="btn-copy-pix" id="btn-copy-pix" onclick="window.gameEngine.copyPixCode()">
-                                <span id="copy-pix-icon">📋</span> Copiar Pix
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div id="pix-copy-alert" class="pix-copy-success" style="display: none;">
-                        ✅ Código "Pix Copia e Cola" copiado com sucesso! Abra seu banco e cole no Pix.
-                    </div>
-                </div>
-
-                <button class="btn-secondary" onclick="window.gameEngine.hideModal('modal-support')" style="margin-top: 14px;">Fechar</button>
-            </div>
-        </div>
-
         <!-- MODAL DE AJUSTES -->
         <div id="modal-settings" class="modal-overlay">
             <div class="modal-card">
@@ -316,6 +273,5 @@
     <script src="js/levels.js"></script>
     <script src="js/economy.js"></script>
     <script src="js/game.js"></script>
-    <script src="https://projetoij.lovable.app/api/public/pij.js" defer></script>
 </body>
 </html>

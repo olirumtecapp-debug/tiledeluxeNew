@@ -49,15 +49,6 @@ class TileExplorerEngine {
             this.showScreen('screen-main-menu');
         });
 
-        // Botões de Tela Cheia (Fullscreen)
-        const toggleFullscreen = () => this.toggleFullscreen();
-        if (document.getElementById('btn-fullscreen-menu')) {
-            document.getElementById('btn-fullscreen-menu').addEventListener('click', toggleFullscreen);
-        }
-        if (document.getElementById('btn-fullscreen-game')) {
-            document.getElementById('btn-fullscreen-game').addEventListener('click', toggleFullscreen);
-        }
-
         // Modais de Vitória e Derrota
         document.getElementById('btn-next-level').addEventListener('click', () => {
             this.hideModal('modal-win');
@@ -149,57 +140,6 @@ class TileExplorerEngine {
             const banner = document.getElementById('pwa-install-banner');
             if (banner) banner.style.display = 'block';
         });
-    }
-
-    // Copiar Código Pix Copia e Cola
-    copyPixCode() {
-        const pixInput = document.getElementById('pix-copy-paste-code');
-        if (pixInput) {
-            pixInput.select();
-            pixInput.setSelectionRange(0, 99999); // Para mobile
-
-            navigator.clipboard.writeText(pixInput.value).then(() => {
-                const alertEl = document.getElementById('pix-copy-alert');
-                const btnEl = document.getElementById('btn-copy-pix');
-                if (alertEl) alertEl.style.display = 'block';
-                if (btnEl) btnEl.innerHTML = '✅ Copiado!';
-                window.soundManager.playWin();
-
-                setTimeout(() => {
-                    if (btnEl) btnEl.innerHTML = '<span>📋</span> Copiar Pix';
-                }, 3000);
-            }).catch(err => {
-                // Fallback para navegadores antigos
-                document.execCommand('copy');
-                alert("Código Pix copiado!");
-            });
-        }
-    }
-
-    // Alternar Tela Cheia (Fullscreen)
-    toggleFullscreen() {
-        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
-            const el = document.documentElement;
-            if (el.requestFullscreen) {
-                el.requestFullscreen();
-            } else if (el.webkitRequestFullscreen) {
-                el.webkitRequestFullscreen();
-            }
-            this.updateFullscreenIcons(true);
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            }
-            this.updateFullscreenIcons(false);
-        }
-    }
-
-    updateFullscreenIcons(isFull) {
-        const icon = isFull ? '🗗' : '⛶';
-        if (document.getElementById('btn-fullscreen-menu')) document.getElementById('btn-fullscreen-menu').textContent = icon;
-        if (document.getElementById('btn-fullscreen-game')) document.getElementById('btn-fullscreen-game').textContent = icon;
     }
 
     showScreen(screenId) {
@@ -327,6 +267,7 @@ class TileExplorerEngine {
             const el = document.createElement('div');
             el.className = 'tile-item tray-tile';
             el.setAttribute('data-index', index);
+            el.setAttribute('data-type', tile.type);
             el.innerHTML = asset.svg;
             this.trayContainer.appendChild(el);
         });
@@ -389,8 +330,9 @@ class TileExplorerEngine {
             const trayElements = this.trayContainer.querySelectorAll('.tray-tile');
             let eliminated = 0;
             trayElements.forEach(el => {
-                if (el.innerHTML.includes(TileAssets.tiles[matchedType].name) || eliminated < 3) {
+                if (el.getAttribute('data-type') === matchedType && eliminated < 3) {
                     el.classList.add('matching');
+                    eliminated++;
                 }
             });
 
